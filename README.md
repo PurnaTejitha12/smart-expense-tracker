@@ -1,5 +1,10 @@
 # Smart Expense Tracker
 
+## 🌐 Live Demo
+
+### Frontend
+[Open Smart Expense Tracker](https://purnatejitha12.github.io/smart-expense-tracker/)
+
 A full-stack personal expense management application built using FastAPI and JavaScript.
 
 ## Features
