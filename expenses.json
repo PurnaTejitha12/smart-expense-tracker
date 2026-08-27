@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "id": 1,
+        "title": "Lunch",
+        "amount": 250.0,
+        "category": "Food",
+        "date": "2026-08-27"
+    },
+    {
+        "id": 2,
+        "title": "Bus Ticket",
+        "amount": 50.0,
+        "category": "Travel",
+        "date": "2026-08-27"
+    }
+]
