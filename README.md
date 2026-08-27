@@ -1,28 +1,55 @@
-# Smart Expense Tracker API
+# Smart Expense Tracker
 
-REST API for managing personal expenses.
+A full-stack personal expense management application built using FastAPI and JavaScript.
+
+## Features
+
+- Add expenses
+- View expenses
+- Edit expenses
+- Delete expenses
+- Filter expenses by category
+- Calculate total spending
+- View spending by category
+- Responsive dashboard
+- REST API
+- Interactive API documentation
 
 ## Tech Stack
 
-Python FastAPI
+### Backend
 
-## Install
+- Python
+- FastAPI
+- Pydantic
+- Uvicorn
 
-pip install -r requirements.txt
+### Frontend
 
+- HTML
+- CSS
+- JavaScript
 
-## Run Server
+### Storage
 
-uvicorn src.main:app --reload
+- JSON file
 
+## Project Structure
 
-## Run Tests
+```text
+Smart-Expense-Tracker/
 
-pytest
-
-
-## Documentation
-
-Open:
-
-http://127.0.0.1:8000/docs
+├── src/
+│   ├── main.py
+│   ├── models.py
+│   ├── storage.py
+│   └── __init__.py
+│
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+│
+├── expenses.json
+├── requirements.txt
+└── README.md
