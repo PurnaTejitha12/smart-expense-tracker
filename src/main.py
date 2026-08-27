@@ -11,32 +11,40 @@ app = FastAPI(
 )
 
 
-# --------------------------------------------------
 # CORS
-# --------------------------------------------------
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# --------------------------------------------------
+# -----------------------------------------
+# Root
+# -----------------------------------------
+
+@app.get("/")
+def root():
+
+    return {
+        "message": "Smart Expense Tracker API is running"
+    }
+
+
+# -----------------------------------------
 # Add Expense
-# --------------------------------------------------
+# -----------------------------------------
 
 @app.post("/expenses")
 def add_expense(expense: Expense):
 
     expenses = load_expenses()
 
-    # Prevent duplicate IDs
-    for existing_expense in expenses:
+    for existing in expenses:
 
-        if existing_expense["id"] == expense.id:
+        if existing["id"] == expense.id:
 
             raise HTTPException(
                 status_code=400,
@@ -52,9 +60,9 @@ def add_expense(expense: Expense):
     return expense
 
 
-# --------------------------------------------------
-# Get All Expenses
-# --------------------------------------------------
+# -----------------------------------------
+# Get Expenses
+# -----------------------------------------
 
 @app.get("/expenses")
 def get_expenses(
@@ -66,18 +74,21 @@ def get_expenses(
     if category:
 
         expenses = [
+
             expense
             for expense in expenses
+
             if expense["category"].lower()
             == category.lower()
+
         ]
 
     return expenses
 
 
-# --------------------------------------------------
+# -----------------------------------------
 # Get Single Expense
-# --------------------------------------------------
+# -----------------------------------------
 
 @app.get("/expenses/{expense_id}")
 def get_expense(expense_id: int):
@@ -96,9 +107,9 @@ def get_expense(expense_id: int):
     )
 
 
-# --------------------------------------------------
+# -----------------------------------------
 # Update Expense
-# --------------------------------------------------
+# -----------------------------------------
 
 @app.put("/expenses/{expense_id}")
 def update_expense(
@@ -112,19 +123,17 @@ def update_expense(
 
         if expense["id"] == expense_id:
 
-            updated_data = (
-                updated_expense.model_dump(
-                    mode="json"
-                )
+            data = updated_expense.model_dump(
+                mode="json"
             )
 
-            updated_data["id"] = expense_id
+            data["id"] = expense_id
 
-            expenses[index] = updated_data
+            expenses[index] = data
 
             save_expenses(expenses)
 
-            return updated_data
+            return data
 
     raise HTTPException(
         status_code=404,
@@ -132,9 +141,9 @@ def update_expense(
     )
 
 
-# --------------------------------------------------
+# -----------------------------------------
 # Delete Expense
-# --------------------------------------------------
+# -----------------------------------------
 
 @app.delete("/expenses/{expense_id}")
 def delete_expense(expense_id: int):
@@ -142,9 +151,12 @@ def delete_expense(expense_id: int):
     expenses = load_expenses()
 
     remaining = [
+
         expense
         for expense in expenses
+
         if expense["id"] != expense_id
+
     ]
 
     if len(remaining) == len(expenses):
@@ -161,9 +173,9 @@ def delete_expense(expense_id: int):
     }
 
 
-# --------------------------------------------------
-# Expense Summary
-# --------------------------------------------------
+# -----------------------------------------
+# Summary
+# -----------------------------------------
 
 @app.get("/expenses/summary")
 def summary():
